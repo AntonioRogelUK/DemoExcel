@@ -27,30 +27,28 @@ namespace DemoExcel
 
         public bool ProbarConexion() 
         {
-            if (File.Exists(archivo)) 
-            {
-                using (OleDbConnection oleDbConnection = new OleDbConnection(connectionString))
-                {
-                    try
-                    {
-                        oleDbConnection.Open();
-                        return true;
-                    }
-                    catch (Exception ex)
-                    {
-                        string strError = ex.Message;
-                        if (strError.IndexOf("Microsoft.ACE.OLEDB.12.0") > -1)
-                        {
-                            throw new Exception("El proveedor de acceso a datos no está instalado Microsoft.ACE.OLEDB.12.0");
-                        }
-
-                        throw new Exception(strError);
-                    }
-                }
-            }
-            else
+            if (!File.Exists(archivo)) 
             {
                 throw new Exception($"No se encontró el archivo {archivo}");
+            }
+
+            using (OleDbConnection oleDbConnection = new OleDbConnection(connectionString))
+            {
+                try
+                {
+                    oleDbConnection.Open();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    string strError = ex.Message;
+                    if (strError.IndexOf("Microsoft.ACE.OLEDB.12.0") > -1)
+                    {
+                        throw new Exception("El proveedor de acceso a datos no está instalado Microsoft.ACE.OLEDB.12.0");
+                    }
+
+                    throw new Exception(strError);
+                }
             }
         }
     }
