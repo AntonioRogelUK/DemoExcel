@@ -12,8 +12,10 @@ namespace DemoExcel
 {
     public partial class Form1 : Form
     {
+        private Excel excel;
         public Form1()
         {
+            excel = new Excel("Database.xlsx");
             InitializeComponent();
         }
 
@@ -21,17 +23,12 @@ namespace DemoExcel
         {
             try
             {
-                Excel excel = new Excel("Database.xlsx");
-                excel.ProbarConexion();
-
                 if (excel.ProbarConexion()) 
                 {
                     dgvDatos.DataSource = excel.ObtenerDataTable("SELECT * FROM [Datos$]");
                     int.TryParse(excel.Scalar("SELECT Count(*) FROM [Datos$]").ToString(), out int CuentaContactos);
                     lblContactos.Text = $"{CuentaContactos} Contactos";
-                    
                 }
-                
             }
             catch (Exception ex)
             {
