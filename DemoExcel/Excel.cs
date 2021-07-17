@@ -52,7 +52,6 @@ namespace DemoExcel
             }
         }
 
-        //Scalar, NonQuery, Reader
         public object Scalar(string query) 
         {
             using(OleDbConnection oleDbConnection = new OleDbConnection(connectionString)) 
@@ -75,6 +74,37 @@ namespace DemoExcel
                     oleDbCommand.CommandType = CommandType.Text;
                     oleDbConnection.Open();
                     return oleDbCommand.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public Dictionary<string, object> Reader(string query) 
+        {
+            using (OleDbConnection oleDbConnection = new OleDbConnection(connectionString))
+            {
+                using (OleDbCommand oleDbCommand = new OleDbCommand(query, oleDbConnection))
+                {
+                    oleDbCommand.CommandType = CommandType.Text;
+                    oleDbConnection.Open();
+                    OleDbDataReader oleDbDataReader = oleDbCommand.ExecuteReader();
+                    int cuentaReader = oleDbDataReader.FieldCount - 1;
+
+                    Dictionary<string, object> dicRespuesta = new Dictionary<string, object>();
+
+                    while (oleDbDataReader.Read()) 
+                    {
+                        if (!oleDbDataReader.IsDBNull(0)) 
+                        {
+                            for (int i = 0; i <= cuentaReader; i++) 
+                            {
+                                dicRespuesta.Add(
+                                    oleDbDataReader.GetName(i).ToString(),
+                                    oleDbDataReader.GetValue(i));
+                            }
+                        }
+                    }
+
+                    return dicRespuesta;
                 }
             }
         }
