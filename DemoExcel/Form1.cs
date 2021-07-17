@@ -85,11 +85,6 @@ namespace DemoExcel
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void dgvDatos_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -170,7 +165,7 @@ namespace DemoExcel
                     throw new Exception("El id es requerido");
                 }
 
-                int afectados = excel.NonQuery($"DELETE * FROM [Datos$] " +
+                int afectados = excel.NonQuery($"DELETE FROM [Datos$] " +
                     $"WHERE Id = {txtId.Text}");
 
 
