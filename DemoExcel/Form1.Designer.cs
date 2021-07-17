@@ -87,6 +87,7 @@ namespace DemoExcel
             this.btnNuevoRegistro.TabIndex = 4;
             this.btnNuevoRegistro.Text = "Nuevo registro";
             this.btnNuevoRegistro.UseVisualStyleBackColor = true;
+            this.btnNuevoRegistro.Click += new System.EventHandler(this.btnNuevoRegistro_Click);
             // 
             // txtTelefono
             // 

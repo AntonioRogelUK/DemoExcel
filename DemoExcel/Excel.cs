@@ -66,6 +66,19 @@ namespace DemoExcel
             }
         }
 
+        public int NonQuery(string query) 
+        {
+            using (OleDbConnection oleDbConnection = new OleDbConnection(connectionString))
+            {
+                using (OleDbCommand oleDbCommand = new OleDbCommand(query, oleDbConnection))
+                {
+                    oleDbCommand.CommandType = CommandType.Text;
+                    oleDbConnection.Open();
+                    return oleDbCommand.ExecuteNonQuery();
+                }
+            }
+        }
+
         public DataTable ObtenerDataTable(string query)
         {
             using (OleDbConnection oleDbConnection = new OleDbConnection(connectionString)) 

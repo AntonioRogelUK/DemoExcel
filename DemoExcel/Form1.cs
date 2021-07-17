@@ -35,5 +35,51 @@ namespace DemoExcel
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void btnNuevoRegistro_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(txtNombre.Text)) 
+                {
+                    txtNombre.Focus();
+                    throw new Exception("El nombre es requerido"); 
+                }
+
+                if (string.IsNullOrWhiteSpace(txtTelefono.Text)) 
+                {
+                    txtTelefono.Focus();
+                    throw new Exception("El teléfono es requerido"); 
+                }
+
+                if (string.IsNullOrWhiteSpace(txtEmail.Text)) 
+                {
+                    txtEmail.Focus();
+                    throw new Exception("El Email es requerido"); 
+                }
+
+                int afectados = excel.NonQuery($"INSERT INTO [Datos$] " +
+                    $"(Nombre, Telefono, Email) VALUES " +
+                    $"('{txtNombre.Text}', '{txtTelefono.Text}','{txtEmail.Text}')");
+
+
+                foreach(var control in this.Controls) 
+                {
+                    if (control is TextBox) 
+                    {
+                        ((TextBox)control).Clear();
+                    }
+                }
+
+                btnObtenerDatos.PerformClick();
+
+                lblContactos.Text += $"   '{afectados}' registros afectados";
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }
