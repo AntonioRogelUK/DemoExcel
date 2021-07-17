@@ -23,6 +23,15 @@ namespace DemoExcel
             {
                 Excel excel = new Excel("Database.xlsx");
                 excel.ProbarConexion();
+
+                if (excel.ProbarConexion()) 
+                {
+                    dgvDatos.DataSource = excel.ObtenerDataTable("SELECT * FROM [Datos$]");
+                    int.TryParse(excel.Scalar("SELECT Count(*) FROM [Datos$]").ToString(), out int CuentaContactos);
+                    lblContactos.Text = $"{CuentaContactos} Contactos";
+                    
+                }
+                
             }
             catch (Exception ex)
             {

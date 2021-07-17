@@ -51,5 +51,40 @@ namespace DemoExcel
                 }
             }
         }
+
+        //Scalar, NonQuery, Reader
+        public object Scalar(string query) 
+        {
+            using(OleDbConnection oleDbConnection = new OleDbConnection(connectionString)) 
+            {
+                using (OleDbCommand oleDbCommand = new OleDbCommand(query, oleDbConnection)) 
+                {
+                    oleDbCommand.CommandType = CommandType.Text;
+                    oleDbConnection.Open();
+                    return oleDbCommand.ExecuteScalar();
+                }
+            }
+        }
+
+        public DataTable ObtenerDataTable(string query)
+        {
+            using (OleDbConnection oleDbConnection = new OleDbConnection(connectionString)) 
+            {
+                using (OleDbCommand oleDbCommand = new OleDbCommand(query, oleDbConnection))
+                {
+                    oleDbCommand.CommandType = CommandType.Text;
+                    oleDbConnection.Open();
+
+                    DataTable dtRespuesta = new DataTable();
+
+                    using (OleDbDataAdapter oleDbDataAdapter = new OleDbDataAdapter(oleDbCommand)) 
+                    {
+                        oleDbDataAdapter.Fill(dtRespuesta);
+                    }
+
+                    return dtRespuesta;
+                }
+            }
+        }
     }
 }
